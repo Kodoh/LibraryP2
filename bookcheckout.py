@@ -1,10 +1,10 @@
 from datetime import datetime
 from datetime import date
 from typing import overload
-from booksearch import openDb
+import database
 twodline = []
 takenList = []
-openDb(twodline)
+database.openDb(twodline)
 MemberId = input("Please enter member ID - ")
 found = False
 Overdue = False
@@ -31,12 +31,14 @@ if found == True:
     Overdue(MemberId)
     found = False
     BookId = input("Please enter book ID - ")
+    count = 0
     for i in twodline:
         if BookId in i:
+            count += 1
             if i[5] != "0":
                 print("Error Book is on loan!")
             else:
-                Withdraw = input("Would you like to withdraw this book? ('Y' for yes or 'N' for no)")
+                Withdraw = input("Would you like to withdraw this book? ('Y' for yes or 'N' for no) - ")
                 if Withdraw == 'Y':
                     i[5] = MemberId
                     with open('database.txt',"w") as f:
@@ -51,7 +53,10 @@ if found == True:
                     print("Thank you for using the system")
                 else:
                     print("Not an option")
-
+    if count == 0:
+        print(f"Could not find book #{BookId}")
 
 else:
     print("could not find this member")
+
+
