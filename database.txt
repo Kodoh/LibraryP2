@@ -1,12 +1,12 @@
-1 Sci-Fi Gaurdians_of_the_galaxy Tim_Wood 1/8/2010 coai
+1 Sci-Fi Gaurdians_of_the_galaxy Tim_Wood 1/8/2010 0
 2 Sci-Fi time_warp Tim_Wood 1/8/2012 0
 3 Sci-Fi Gaurdians_of_the_galaxy Tim_Wood 1/8/2010 0
 4 Action Magic_show Alhan_Garcay 1/8/2010 coai
 5 Gothic Dracula Mike_Zi 19/02/2019 coja
 6 Gothic Death_Story Lord_Byron 02/01/2002 0
 7 Kids Billy Clare_Smith 10/11/2010 coja
-8 Kids Silly Jimmy_Karr 06/06/2006 0
-9 Kids Mad_Goat Tim_Wood 08/12/2008 coai
+8 Kids Silly Jimmy_Karr 06/06/2006 coai
+9 Kids Mad_Goat Tim_Wood 08/12/2008 0
 10 Gothic Darkness Will_Knight 02/06/2018 0
 11 Action Squid_Game Corey_Schafer 01/04/2012 mejk
 12 Action Runner_Boy Jane_Jeffery 07/07/2007 0
@@ -17,6 +17,6 @@
 17 Action King_Solomon's_Mines H._Rider_Haggard 07/07/2007 0
 18 Action The_Count_of_Monte_Cristo Alexandre_Dumas 07/07/2007 0
 19 Action Journey_to_the_Center of_the_Earth Jules_Verne 07/07/2007 0
-20 Action Ivanhoe Walter_Scott 07/07/2007 coai
+20 Action Ivanhoe Walter_Scott 07/07/2007 0
 21 Action Tarzan_of_the_Apes Edgar_Rice_Burroughs 07/07/2007 0
 22 Action Heart_of_Darkness Joseph_Conrad 07/07/2007 0

@@ -1,47 +1,57 @@
 twodline = []
 logline = []
+import tkinter
 from datetime import date
+from database import writefile
 from database import openDb
 from booksearch import days_between
 openDb(twodline,'database.txt')
 openDb(logline, 'logfile.txt')
 today = date.today()
 d1 = today.strftime("%d/%m/%Y")
-def writefile(a,b):
-    with open('database.txt',"w") as f:
-        for i in a:
-            for x in i:
-                f.write(x)
-                if x != i[len(i)-1]:
-                    f.write(" ")
-            f.write("\n")
-        f.close()
-    with open('logfile.txt','w') as f2:
-        for i in b:
-            for x in i:
-                f2.write(x)
-                if x != i[len(i)-1]:
-                    f2.write(" ")
-            f2.write("\n")
-        f2.close()
-def bookreturns():
-    BID = input("Please enter book ID - ")
+
+def returning():
+    count = 0
+    inp = inputtxt.get(1.0, "end-1c")
     for i in twodline:
-        if BID == i[0] and i[5] == 0:
-            print(f"Book #{BID} has already been returned!")
-        elif BID == i[0]:
+        if inp == i[0] and i[5] == '0':
+            lbl.config(text=f"Book #{inp} has already been returned!",bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
+            lbl2.config(text = "",bg='#d98768')
+            count += 1 
+        elif inp == i[0]:
             for x in logline: 
                 if i[0] == x[0] and x[2] == 'current':
                     if days_between(x[1],str(date.today())) > 60 and x[2] == 'current':
-                        print(f"This Book #{BID} has been overdue for more than 60 days! ({days_between(x[1],str(date.today()))} days in total)")
-            #update date??? - need to check how this is wanted to be done
+                        lbl.config(text = f"This Book #{inp} has been overdue for more than 60 days!\n ({days_between(x[1],str(date.today()))} days in total)", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
             i[5] = "0"
             for i in logline:
-                if BID == i[0] and i[2] == 'current':
+                if inp == i[0] and i[2] == 'current':
                     i[2] = str(d1)
-                    print(logline)
                     writefile(twodline,logline)
-            print(f"Book #{BID} has now been returned!")   
-
-if __name__ == '__main__':
-    bookreturns()
+            lbl2.config(text=f"Book #{inp} has now been returned!", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff") 
+            count += 1  
+    if count == 0:
+        lbl.config(text=f"Book #{inp} not found!",bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
+        lbl2.config(text = "",bg='#d98768')
+def returnMain():
+    top = tkinter.Toplevel()
+    top.geometry("650x300")
+    top.title("Book Return")
+    tkinter.Label(top,text = "✨ Book Return ✨", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff").pack()
+    tkinter.Label(top,text = "",bg='#d98768').pack()
+    global enter
+    enter = tkinter.Label(top,text = "Enter Book ID -", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
+    enter.pack()
+    global inputtxt
+    inputtxt = tkinter.Text(top,height = 1,width = 20,bg = "#454545", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff",borderwidth = 3,relief="sunken")   
+    inputtxt.pack()
+    global SubButton
+    SubButton = tkinter.Button(top,text = "Submit", command = returning,height = "1", width = "10",font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545")
+    SubButton.pack()
+    global lbl
+    lbl = tkinter.Label(top,text = "",bg='#d98768')
+    lbl.pack()
+    global lbl2 
+    lbl2 = tkinter.Label(top,text = "",bg='#d98768')
+    lbl2.pack()
+    top.configure(bg='#d98768')

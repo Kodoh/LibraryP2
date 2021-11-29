@@ -16,26 +16,8 @@ today = date.today()
 # dd/mm/YY
 d1 = today.strftime("%d/%m/%Y")
 
-def Search():
-    titleSearch = input("Please enter name of book - ")
-    found = False
-    print(f"Result(s) found for {titleSearch} -")
-    count = 0
-    for i in twodline:
-        if i[2] == titleSearch:
-            found == True
-            print(f"ID - {i[0]}")
-            print(f"Genre - {i[1]}")
-            print(f"Author - {i[3]}")
-            print(f"Purchase date - {i[4]}")
-            print(f"Member Id - {i[5]}\n")
-        else:
-            count += 1
-    if count == len(twodline):
-        print(f"no results found for '{titleSearch}'")
 
-
-def main_screen2():
+def Searchmain():
     top = tkinter.Toplevel()
     top.geometry("450x400")
     top.title("Book Search")
@@ -78,21 +60,41 @@ def loan():
         tkinter.Label(top,text = "No books could be found which have been on loan for more than 60 days", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff").pack()
     top.configure(bg='#d98768')
 
-def printInput():
+def Results():
+    ress = ""
     inp = inputtxt.get(1.0, "end-1c")
-    lbl.config(text = "Provided Input: "+inp)
+    count = 0
+    lbl1.config(text="Results - ",bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
+    for i in twodline:
+        if i[2] == inp:
+            ress = ress + f"ID - {i[0]}\nGenre - {i[1]}\nTitle - {i[2]}\nAuthor - {i[3]}\nPurchase date - {i[4]}\nMember Id - {i[5]}\n\n"
+        else:
+            count += 1
+    if count == len(twodline):
+        lbl.config(text = f"no results found for '{inp}'", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
+    else:
+        lbl.config(text = ress, bg = "#d98768", width = "300", height = "40", font = ("Courier", 15),fg = "#dfe0ff")
 
 def search():
+    global top
     top = tkinter.Toplevel()
     top.geometry("450x450")
     top.title("Search for books")
-    tkinter.Label(text = "Search for books", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff").pack()
+    tkinter.Label(top,text = "Search for books", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff").pack()
     tkinter.Label(top,text = "",bg='#d98768').pack()
+    tkinter.Label(top,text = "Enter Name of book to be searched -", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff").pack()
     global inputtxt
-    inputtxt = tkinter.Text(top,height = 5,width = 20)
+    inputtxt = tkinter.Text(top,height = 1,width = 20,bg = "#454545", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff",borderwidth = 3,relief="sunken")
     inputtxt.pack()
-    printButton = tkinter.Button(top,text = "Print", command = printInput)
-    printButton.pack()
+    SubButton = tkinter.Button(top,text = "Submit", command = Results,height = "1", width = "10",font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545")
+    SubButton.pack()
+    tkinter.Label(top,text = "",bg='#d98768').pack()
+    global lbl1
+    lbl1 = tkinter.Label(top, text = "",bg='#d98768')
+    lbl1.pack()
     global lbl
-    lbl = tkinter.Label(top, text = "")
+    lbl = tkinter.Label(top, text = "",bg='#d98768')
+    top.configure(bg='#d98768')
     lbl.pack()
+
+
