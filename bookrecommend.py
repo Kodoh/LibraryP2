@@ -1,40 +1,40 @@
 twodline = []
 logline = []
 from database import openDb
-import sys
-import numpy as np
-import pylab
-import pandas as pd
-from pandas import Series, DataFrame
+from tkinter import *
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import tkinter
 openDb(twodline,'database.txt')
 openDb(logline, 'logfile.txt')
 
 
-def reco_main():
-    top = tkinter.Toplevel()
-    top.geometry("600x250")
-    top.title("Book Checkout")
-    tkinter.Label(top,text = "✨ Book Recommend ✨", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff").pack()
-    tkinter.Label(top,text = "",bg='#d98768').pack()
+def reco_main(my_notebook,screen):
+    global my_frame2
+    my_frame2 = Frame(my_notebook, width=600, height=250, bg="#d98768")
+    my_frame2.pack(fill="both",expand=1)
+    my_notebook.add(my_frame2, text="Book Recommend")
+    tkinter.Label(my_frame2,text = "✨ Book Recommend ✨", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff").pack()
+    tkinter.Label(my_frame2,text = "",bg='#d98768').pack()
     global enter
-    enter = tkinter.Label(top,text = "Enter ID of member -", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
+    enter = tkinter.Label(my_frame2,text = "Enter ID of member -", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
     enter.pack()
     global inputtxt
-    inputtxt = tkinter.Text(top,height = 1,width = 20,bg = "#454545", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff",borderwidth = 3,relief="sunken")
+    inputtxt = tkinter.Text(my_frame2,height = 1,width = 20,bg = "#454545", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff",borderwidth = 3,relief="sunken")
     inputtxt.pack()
     global SubButton
-    SubButton = tkinter.Button(top,text = "Submit", command = reccomend,height = "1", width = "10",font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545")
+    SubButton = tkinter.Button(my_frame2,text = "Submit", command = reccomend,height = "1", width = "10",font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545")
     global lbl
-    lbl = tkinter.Label(top,text = "",bg='#d98768')
+    lbl = tkinter.Label(my_frame2,text = "",bg='#d98768')
     lbl.pack()
     SubButton.pack()
-    top.configure(bg='#d98768')
+    screen.geometry("1000x450")
 
 def reccomend():
     genre = []
+    global xaxis
     xaxis = []
+    global yaxis
     yaxis = []
     found = False
     inp = inputtxt.get(1.0, "end-1c")
@@ -61,11 +61,30 @@ def reccomend():
         if len(yaxis) < 3:
             lbl.config(text="Couldnt find enough data to reccomend books for this user!", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
         else:
-            plt.rc('xtick', labelsize=7) 
-            plt.figure(figsize=(20, 3))  # width:20, height:3
-            plt.bar(xaxis, yaxis, align='edge', width=0.3)
-            plt.gcf().canvas.set_window_title('Recommend Books')
-            plt.xlabel('Book names', fontsize=10)
-            plt.ylabel('Number of times been loaned out', fontsize=10)
-            plt.title('Popular books in the genre(s) you like!')
-            plt.show()
+            display()
+
+def graph():
+    plt.style.use("ggplot")
+    plt.rc('xtick', labelsize=7) 
+    fig = plt.figure(figsize=(11, 4)) 
+    fig.set_facecolor('#d98768') # width:20, height:3
+    plt.bar(xaxis, yaxis, align='edge', width=0.4,color="#454545")
+    plt.gcf().canvas.set_window_title('Recommend Books')
+    myxaxis = plt.xlabel('Book names', fontsize=10)
+    plt.tick_params(axis='x', colors='white')
+    myyaxis =plt.ylabel('Number of times been loaned out', fontsize=10)
+    plt.setp(myxaxis, color="white")
+    plt.setp(myyaxis, color = "white")
+    plt.tick_params(axis='y', colors='white')
+    mytitle = plt.title('Popular books in the genre(s) you like!')
+    plt.setp(mytitle, color='white') 
+    return fig
+
+def display():
+    for widgets in my_frame2.winfo_children():
+        widgets.destroy()
+    fig = graph()
+    Canvas = FigureCanvasTkAgg(fig,master=my_frame2)
+    Canvas.draw()
+    Canvas.get_tk_widget().grid(column=0,row=0)
+

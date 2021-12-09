@@ -24,7 +24,7 @@ def writefile(a,b):
         for i in b:
             for x in i:
                 f2.write(x)
-                if x != i[len(i)-1]:
+                if i.index(x) != 2:
                     f2.write(" ")
             f2.write("\n")
         f2.close()

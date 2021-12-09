@@ -3,13 +3,14 @@ logline = []
 import tkinter
 from datetime import date
 from database import writefile
+from tkinter import *
+from tkinter import ttk
 from database import openDb
 from booksearch import days_between
 openDb(twodline,'database.txt')
 openDb(logline, 'logfile.txt')
 today = date.today()
 d1 = today.strftime("%d/%m/%Y")
-
 def returning():
     count = 0
     inp = inputtxt.get(1.0, "end-1c")
@@ -33,25 +34,24 @@ def returning():
     if count == 0:
         lbl.config(text=f"Book #{inp} not found!",bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
         lbl2.config(text = "",bg='#d98768')
-def returnMain():
-    top = tkinter.Toplevel()
-    top.geometry("650x300")
-    top.title("Book Return")
-    tkinter.Label(top,text = "✨ Book Return ✨", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff").pack()
-    tkinter.Label(top,text = "",bg='#d98768').pack()
+def returnMain(mynotebook):
+    my_frame3 = Frame(mynotebook, width=450, height=400, bg="#d98768")
+    my_frame3.pack(fill="both",expand=1)
+    mynotebook.add(my_frame3, text="Book Search")
+    tkinter.Label(my_frame3,text = "✨ Book Return ✨", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff").pack()
+    tkinter.Label(my_frame3,text = "",bg='#d98768').pack()
     global enter
-    enter = tkinter.Label(top,text = "Enter Book ID -", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
+    enter = tkinter.Label(my_frame3,text = "Enter Book ID -", bg = "#d98768", width = "300", height = "2", font = ("Courier", 15),fg = "#dfe0ff")
     enter.pack()
     global inputtxt
-    inputtxt = tkinter.Text(top,height = 1,width = 20,bg = "#454545", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff",borderwidth = 3,relief="sunken")   
+    inputtxt = tkinter.Text(my_frame3,height = 1,width = 20,bg = "#454545", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff",borderwidth = 3,relief="sunken")   
     inputtxt.pack()
     global SubButton
-    SubButton = tkinter.Button(top,text = "Submit", command = returning,height = "1", width = "10",font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545")
+    SubButton = tkinter.Button(my_frame3,text = "Submit", command = returning,height = "1", width = "10",font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545")
     SubButton.pack()
     global lbl
-    lbl = tkinter.Label(top,text = "",bg='#d98768')
+    lbl = tkinter.Label(my_frame3,text = "",bg='#d98768')
     lbl.pack()
     global lbl2 
-    lbl2 = tkinter.Label(top,text = "",bg='#d98768')
+    lbl2 = tkinter.Label(my_frame3,text = "",bg='#d98768')
     lbl2.pack()
-    top.configure(bg='#d98768')
