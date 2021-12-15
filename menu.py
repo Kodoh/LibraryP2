@@ -1,29 +1,19 @@
 from tkinter import ttk
-from booksearch import loan,search
+from tkinter import *
+from booksearch import Searchmain
 from bookcheckout import checkoutMain
-from datetime import datetime
-from datetime import date
 from bookreturn import returnMain
 from bookrecommend import reco_main
-from tkinter import *
-from database import openDb
+from database.database import openDb
 import tkinter
-logline = []
-twodline = []
-openDb(twodline,'database.txt')
+logline = []    #2d list holding data for logfile.txt
+dbline = []   #2d list holding data for database.txt
+openDb(dbline,'database.txt')         
 openDb(logline,'logfile.txt')
 
-def days_between(d1, d2):
-    d1 = datetime.strptime(d1, "%d/%m/%Y")
-    d2 = datetime.strptime(d2, "%Y-%m-%d")
-    return abs((d2 - d1).days)
-
-today = date.today()
-# dd/mm/YY
-d1 = today.strftime("%d/%m/%Y")
 
 def Book_Checkout():
-    checkoutMain(my_notebook)
+    checkoutMain(my_notebook,screen)
     my_notebook.select(1)
     my_notebook.hide(0)
 def Book_Return():
@@ -32,42 +22,20 @@ def Book_Return():
     my_notebook.hide(0)
 def Book_Recommend():
     reco_main(my_notebook,screen)
-    my_notebook.select(1)
+    my_notebook.select(1)                               #linking to other files when button pressed on menu
     my_notebook.hide(0)
 def quit():
-    global screen
+    global screen                               
     screen.quit()
-def search1():
-    Searchmain()
+def Book_Search():
+    Searchmain(my_notebook,screen)
     my_notebook.select(1)
     my_notebook.hide(0)
 
-def search2():
-    search(my_notebook,screen)
-    my_notebook.select(2)
-    my_notebook.hide(1)
 
-def loan1():
-    loan(my_notebook,screen)
-    my_notebook.select(2)
-    my_notebook.hide(1)
-
-
-def Searchmain():
-    my_frame3 = Frame(my_notebook, width=450, height=400, bg="#d98768")
-    my_frame3.pack(fill="both",expand=1)
-    my_notebook.add(my_frame3, text="Book Search")
-    tkinter.Label(my_frame3,text = "✨ Book Search ✨", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff").pack()
-    tkinter.Label(my_frame3,text = "",bg='#d98768').pack()
-    tkinter.Label(my_frame3,text = "Options:", width = "300", height = "2", font = ("Courier", 15, "bold"),fg = "#dfe0ff",bg = '#d98768').pack()
-    tkinter.Label(my_frame3,text = "",bg='#d98768').pack()
-    tkinter.Button(my_frame3,text = "books on loan for more than 60 days",command=loan1, height = "2", width = "40", font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545").pack()
-    tkinter.Label(my_frame3,text = "",bg='#d98768').pack()
-    tkinter.Button(my_frame3,text = "search for a book", height = "2", width = "30",command=search2, font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545").pack()
-    my_frame3.configure(bg='#d98768')
-
-
-def main_screen():
+def main_screen():        
+    """Menu Screen.
+    Controlling access to all other screens and where the user will start the program from."""
     global screen
     screen = tkinter.Tk()
     screen.geometry("500x450")
@@ -80,8 +48,9 @@ def main_screen():
     global mylabel
     mylabel = Label(my_frame1,text = "✨ Library Menu ✨", bg = "#d76fb0", width = "300", height = "2", font = ("Courier", 15, "bold",'italic'),fg = "#dfe0ff")
     mylabel.pack()
+    #widgets for the menu
     Label(my_frame1,text = "",bg='#d98768').pack()
-    Button(my_frame1,text = "Book Search", height = "2", width = "30", command = search1, font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545").pack()
+    Button(my_frame1,text = "Book Search", height = "2", width = "30", command = Book_Search, font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545").pack()
     Label(my_frame1,text = "",bg='#d98768').pack()
     Button(my_frame1,text = "Book Checkout", height = "2", width = "30", command = Book_Checkout, font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545").pack()
     Label(my_frame1,text = "",bg='#d98768').pack()
@@ -91,7 +60,45 @@ def main_screen():
     Label(my_frame1,text = "",bg='#d98768').pack()
     Button(my_frame1,text = "Quit",height = "2", width = "30", command = screen.quit, font = ("Courier", 13, "bold"),fg = "#dfe0ff", bg = "#454545").pack()
     screen.title("Library Menu")
-    screen.resizable(False, False)
+    screen.resizable(False, False)  #no screen resize 
 main_screen()
 tkinter.mainloop()
+
+def tests():
+    """main_screen -->
+        test number:
+        1)  input: left click on "Book Search" button
+            expected output: taken to "Book Search" screen
+        2)  input: left click on "Book Checkout" button
+            expected output: taken to "Book Checkout" screen
+        3)  input: left click on "Book Return" button
+            expected output: taken to "Book Return" screen
+        4)  input: left click on "Book Recommend" button
+            expected output: taken to "Book Recommend" screen
+        5)  input: left click on "Quit" button
+            expected output: exit the application
+        6)  input: left click on close button of window
+            expected output: exit the application
+        7)  input: left click on minimise button of window
+            expected output: minimize window to the taskbar
+    Book_Search -->
+        test number:
+        1) input: left click on "Book Search" button
+            expected output: runs the function Searchmain in booksearch and presents that screen and hides the menu screen
+    Book_Return -->
+        test number:
+        1) input: left click on "Book Return" button
+            expected output: runs the function returnMain in bookreturn and presents that screen and hides the menu screen
+    Book_Checkout -->
+        test number:
+        1) input: left click on "Book Checkout" button
+            expected output: runs the function checkoutMain in bookcheckout and presents that screen and hides the menu screen
+    Book_Recommend -->
+        test number:
+        1) input: left click on "Book Recommend" button
+            expected output: runs the function reco_main in reco_main and presents that screen and hides the menu screen
+    quit -->
+        test number:
+        1) input: left click on "Quit" button
+            expected output: runs the system exit function which ends the program"""
 
